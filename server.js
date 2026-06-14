@@ -21,14 +21,14 @@ app.post('/chat', async (req, res) => {
     // 開発用：ダミー返信モード
     // APIを使いたくない時は、この下を有効にする
     // =========================
-    
+    /*
     console.log("リクエストが来た:", message);
     console.log("ダミーモード動作中");
 
     return res.json({
       reply: `ダミー返信です。\n発言: ${message}\nルール文字数: ${rules.length}`,
     });
-    
+    */
 
     // =========================
     // 本番用：Gemini返信モード
