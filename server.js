@@ -21,21 +21,21 @@ app.post('/chat', async (req, res) => {
     // 開発用：ダミー返信モード
     // APIを使いたくない時は、この下を有効にする
     // =========================
-    /*
+    
     console.log("リクエストが来た:", message);
     console.log("ダミーモード動作中");
 
     return res.json({
       reply: `ダミー返信です。\n発言: ${message}\nルール文字数: ${rules.length}`,
     });
-    */
+    
 
     // =========================
     // 本番用：Gemini返信モード
     // =========================
 
     const prompt = `
-あなたは会話ルールに従って返答するAIです。
+      あなたは会話ルールに従って返答するAIです。
 
 【会話ルール】
 ${rules}
@@ -45,7 +45,7 @@ ${message}
 
 上の会話ルールを必ず守って、日本語で返答してください。
 `;
-    onsole.log("使用モデル:", "gemini-2.0-flash-lite");
+    console.log("使用モデル:", "gemini-2.0-flash-lite");
     const response = await ai.models.generateContent({
       model: 'gemini-2.0-flash-lite',
       contents: prompt,
