@@ -45,9 +45,10 @@ ${message}
 
 上の会話ルールを必ず守って、日本語で返答してください。
 `;
-    console.log("使用モデル:", "gemini-2.0-flash-lite");
+    console.log("使用モデル:", "gemini-2.5-flash-lite");
+
     const response = await ai.models.generateContent({
-      model: 'gemini-2.0-flash-lite',
+      model: 'gemini-2.5-flash-lite',
       contents: prompt,
     });
 
