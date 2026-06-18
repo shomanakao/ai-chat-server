@@ -68,6 +68,52 @@ ${message}
   }
 });
 
+app.post('/task-advice', async (req, res) => {
+  try {
+    const { tasks } = req.body;
+
+    const prompt = `
+あなたはタスク管理専門AIです。
+
+以下の未完了タスクの中から、今やるべきタスクを1つ選んでください。
+
+【判断基準】
+- 期限が近いものを優先
+- すぐ終わりそうなものも考慮
+- 重要そうなものを優先
+- 回答は理由も加えて日本語で短く
+
+【未完了タスク】
+${tasks}
+
+【回答形式】
+おすすめ: ○○
+理由: ○○
+`;
+
+    console.log("task-advice 使用モデル:", "gemini-2.5-flash-lite");
+
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash-lite',
+      contents: prompt,
+    });
+
+    const reply =
+      typeof response.text === 'function'
+        ? response.text()
+        : response.text;
+
+    res.json({
+      reply: reply || '返答が空でした',
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: 'タスク提案の生成に失敗しました',
+    });
+  }
+});
+
 app.listen(3000, () => {
   console.log('AI chat server is running on http://localhost:3000');
 });
