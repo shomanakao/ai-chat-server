@@ -76,48 +76,46 @@ app.post('/task-advice', async (req, res) => {
     // 開発用：タスク提案ダミーモード
     // APIを使いたくない時は有効にする
     // =========================
-    console.log("task-advice ダミーモード動作中");
     console.log("受け取ったタスク:", tasks);
     console.log("受け取った設定:", settings);
 
     return res.json({
-      reply: `【ダミー提案】
-    おすすめ: SPI対策
-    理由: 設定とタスクはサーバーまで届いています。
+      reply: `【確認用】
+    受け取ったタスク:
+    ${tasks}
 
+    受け取った設定:
     重視: ${settings?.priorities?.join(', ') || 'なし'}
-    作業スタイル: ${settings?.workStyle || 'どちらでも'}
-    状態: ${settings?.condition || '普通'}
+    作業スタイル: ${settings?.workStyle || 'なし'}
+    状態: ${settings?.condition || 'なし'}
     メモ: ${settings?.memo || 'なし'}
-
-    受信タスク:
-    ${tasks}`,
-    });
+    `,
+    });   
 
     const prompt = `
-あなたはタスク管理専門AIです。
+    あなたはタスク管理専門AIです。
 
-以下の未完了タスクの中から、今やるべきタスクを1つ選んでください。
+    以下の未完了タスクの中から、今やるべきタスクを1つ選んでください。
 
-【判断基準】
-- 期限が近いものを優先
-- すぐ終わりそうなものも考慮
-- 重要そうなものを優先
-- 回答は理由も加えて日本語で短く
+    【判断基準】
+    - 期限が近いものを優先
+    - すぐ終わりそうなものも考慮
+    - 重要そうなものを優先
+    - 回答は理由も加えて日本語で短く
 
-【ユーザー設定】
-重視すること: ${settings?.priorities?.join(', ') || 'なし'}
-作業スタイル: ${settings?.workStyle || 'どちらでも'}
-現在の状態: ${settings?.condition || '普通'}
-自由記述: ${settings?.memo || 'なし'}
+    【ユーザー設定】
+    重視すること: ${settings?.priorities?.join(', ') || 'なし'}
+    作業スタイル: ${settings?.workStyle || 'どちらでも'}
+    現在の状態: ${settings?.condition || '普通'}
+    自由記述: ${settings?.memo || 'なし'}
 
-【未完了タスク】
-${tasks}
+    【未完了タスク】
+    ${tasks}
 
-【回答形式】
-おすすめ: ○○
-理由: ○○
-`;
+    【回答形式】
+    おすすめ: ○○
+    理由: ○○
+    `;
 
     console.log("task-advice 使用モデル:", "gemini-2.5-flash-lite");
 
