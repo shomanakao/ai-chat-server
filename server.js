@@ -75,18 +75,16 @@ app.post('/task-advice', async (req, res) => {
     const { tasks, settings } = req.body;
 
     if (USE_DUMMY) {
-      console.log("task-advice ダミーモード動作中");
-      console.log("受け取ったタスク:", tasks);
-      console.log("受け取った設定:", settings);
+      const taskArray = tasks.split('\n');
 
       return res.json({
         reply: JSON.stringify({
-          first: "SPI対策する",
-          firstReason: "ダミー回答です。1位の表示確認用です。",
-          second: "レポート",
-          secondReason: "ダミー回答です。2位の表示確認用です。",
-          third: "部屋掃除",
-          thirdReason: "ダミー回答です。3位の表示確認用です。"
+          first: taskArray[0] || 'なし',
+          firstReason: 'ダミー1位',
+          second: taskArray[1] || 'なし',
+          secondReason: 'ダミー2位',
+          third: taskArray[2] || 'なし',
+          thirdReason: 'ダミー3位',
         }),
       });
     }
