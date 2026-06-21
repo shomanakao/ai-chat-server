@@ -68,30 +68,28 @@ ${message}
   }
 });
 
+const USE_DUMMY = true;
+
 app.post('/task-advice', async (req, res) => {
   try {
     const { tasks, settings } = req.body;
 
-    // =========================
-    // 開発用：タスク提案ダミーモード
-    // APIを使いたくない時は有効にする
-    // =========================
-    /*
-    console.log("受け取ったタスク:", tasks);
-    console.log("受け取った設定:", settings);
+    if (USE_DUMMY) {
+      console.log("task-advice ダミーモード動作中");
+      console.log("受け取ったタスク:", tasks);
+      console.log("受け取った設定:", settings);
 
-    return res.json({
-      reply: `【確認用】
-    受け取ったタスク:
-    ${tasks}
-
-    受け取った設定:
-    重視: ${settings?.priorities?.join(', ') || 'なし'}
-    作業スタイル: ${settings?.workStyle || 'なし'}
-    状態: ${settings?.condition || 'なし'}
-    メモ: ${settings?.memo || 'なし'}
-    `,
-    });*/   
+      return res.json({
+        reply: JSON.stringify({
+          first: "SPI対策する",
+          firstReason: "ダミー回答です。1位の表示確認用です。",
+          second: "レポート",
+          secondReason: "ダミー回答です。2位の表示確認用です。",
+          third: "部屋掃除",
+          thirdReason: "ダミー回答です。3位の表示確認用です。"
+        }),
+      });
+    }
 
     const prompt = `
     あなたはタスク管理専門AIです。
@@ -104,6 +102,21 @@ app.post('/task-advice', async (req, res) => {
     - 重要そうなものを優先
     - 回答は理由も加えて日本語で短く
 
+    必ず与えられたタスク一覧の中から選ぶこと。
+    一覧に存在しないタスクを作成してはいけない。
+    推測や補完は禁止。
+
+    以下のJSONのみを返してください。
+
+    {
+      "first":"タスク名",
+      "firstReason":"理由",
+      "second":"タスク名",
+      "secondReason":"理由",
+      "third":"タスク名",
+      "thirdReason":"理由"
+    }
+
     【ユーザー設定】
     重視すること: ${settings?.priorities?.join(', ') || 'なし'}
     作業スタイル: ${settings?.workStyle || 'どちらでも'}
@@ -112,16 +125,6 @@ app.post('/task-advice', async (req, res) => {
 
     【未完了タスク】
     ${tasks}
-
-    【回答形式】
-    🥇 1位: ○○
-    理由: ○○
-
-    🥈 2位: ○○
-    理由: ○○
-
-    🥉 3位: ○○
-    理由: ○○
     `;
 
     console.log("task-advice 使用モデル:", "gemini-2.5-flash-lite");
