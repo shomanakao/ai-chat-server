@@ -76,6 +76,7 @@ app.post('/task-advice', async (req, res) => {
     // 開発用：タスク提案ダミーモード
     // APIを使いたくない時は有効にする
     // =========================
+    /*
     console.log("受け取ったタスク:", tasks);
     console.log("受け取った設定:", settings);
 
@@ -90,7 +91,7 @@ app.post('/task-advice', async (req, res) => {
     状態: ${settings?.condition || 'なし'}
     メモ: ${settings?.memo || 'なし'}
     `,
-    });   
+    });*/   
 
     const prompt = `
     あなたはタスク管理専門AIです。
