@@ -72,6 +72,28 @@ app.post('/task-advice', async (req, res) => {
   try {
     const { tasks, settings } = req.body;
 
+    // =========================
+    // 開発用：タスク提案ダミーモード
+    // APIを使いたくない時は有効にする
+    // =========================
+    console.log("task-advice ダミーモード動作中");
+    console.log("受け取ったタスク:", tasks);
+    console.log("受け取った設定:", settings);
+
+    return res.json({
+      reply: `【ダミー提案】
+    おすすめ: SPI対策
+    理由: 設定とタスクはサーバーまで届いています。
+
+    重視: ${settings?.priorities?.join(', ') || 'なし'}
+    作業スタイル: ${settings?.workStyle || 'どちらでも'}
+    状態: ${settings?.condition || '普通'}
+    メモ: ${settings?.memo || 'なし'}
+
+    受信タスク:
+    ${tasks}`,
+    });
+
     const prompt = `
 あなたはタスク管理専門AIです。
 
