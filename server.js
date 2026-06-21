@@ -68,7 +68,7 @@ ${message}
   }
 });
 
-const USE_DUMMY = true;
+const USE_DUMMY = false;
 
 app.post('/task-advice', async (req, res) => {
   try {
@@ -114,6 +114,11 @@ app.post('/task-advice', async (req, res) => {
       "third":"タスク名",
       "thirdReason":"理由"
     }
+
+    注意:
+    - JSON以外の文章を絶対に書かない
+    - \`\`\`json や \`\`\` を付けない
+    - タスク名は未完了タスク一覧にある表記をそのまま使う
 
     【ユーザー設定】
     重視すること: ${settings?.priorities?.join(', ') || 'なし'}
