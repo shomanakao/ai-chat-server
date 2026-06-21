@@ -70,7 +70,7 @@ ${message}
 
 app.post('/task-advice', async (req, res) => {
   try {
-    const { tasks } = req.body;
+    const { tasks, settings } = req.body;
 
     const prompt = `
 あなたはタスク管理専門AIです。
@@ -82,6 +82,12 @@ app.post('/task-advice', async (req, res) => {
 - すぐ終わりそうなものも考慮
 - 重要そうなものを優先
 - 回答は理由も加えて日本語で短く
+
+【ユーザー設定】
+重視すること: ${settings?.priorities?.join(', ') || 'なし'}
+作業スタイル: ${settings?.workStyle || 'どちらでも'}
+現在の状態: ${settings?.condition || '普通'}
+自由記述: ${settings?.memo || 'なし'}
 
 【未完了タスク】
 ${tasks}
