@@ -68,7 +68,7 @@ ${message}
   }
 });
 
-const USE_DUMMY = true;
+const USE_DUMMY = false;
 
 app.post('/task-advice', async (req, res) => {
   try {
